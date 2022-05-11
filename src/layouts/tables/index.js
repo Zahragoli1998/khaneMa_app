@@ -50,7 +50,7 @@ const Tables = () => {
     }
   }, [data]);
 
-  const colors = ["red", "orange", "pink", "yellow", "blue", "green"];
+  const colors = ["ff0000", "ffa600", "ffc0cb", "ffff00", "0000ff", "008000"];
   return (
     <>
       <DashboardLayout>
@@ -91,7 +91,7 @@ const Tables = () => {
                           <Box
                             sx={{
                               variant: "gradient",
-                              backgroundColor: item.color,
+                              backgroundColor: `#${item.color}`,
                               color: "dark",
                               width: "2rem",
                               height: "2rem",

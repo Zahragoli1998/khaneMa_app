@@ -15,6 +15,7 @@ import TimelineItem from "examples/Timeline/TimelineItem";
 import { useMutation, useQuery, gql } from "@apollo/client";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import { newDate } from "date-fns-jalali";
 
 const ADD_EXPENSE = gql`
   mutation Mutation($data: ExpenseInfo!) {
@@ -108,7 +109,21 @@ function Billing() {
 
   useEffect(() => {
     if (data) {
-      setMyExpense([...data.getMyExpenses]);
+			const newArray = [
+				...data.getMyExpenses.map((item) => {
+					const newDate = new Date(item.date)
+					return {
+						...item,
+						newDate: newDate.toLocaleDateString('fa-IR',{year:'numeric',month:'numeric',day:'numeric'}),
+					};
+				}),
+			];
+			const sortableArray = [
+				...newArray.sort(function (a, b) {
+					return new Date(b.date) - new Date(a.date);
+				}),
+			];
+      setMyExpense([...sortableArray])
       setTags([...data.getMyTags]);
     }
   }, [data]);
@@ -163,13 +178,14 @@ function Billing() {
           <Card className="h-100">
             <SuiBox p={2}>
               {myExpense.map((item) => {
+								const newDate = new Date(item.date)
                 return (
                   <Box key={item._id} sx={{ display: "flex", justifyContent: "space-between" }}>
                     <TimelineItem
                       color="info"
                       icon="shopping_cart"
                       title={`$${item.amount}`}
-                      dateTime={item.date}
+                      dateTime={newDate.toLocaleDateString('fa-IR',{year:'numeric',month:'numeric',day:'numeric'})}
                       description={item.tags}
                     />
                     <DeleteExpense id={item._id} refetch={refetch} />
@@ -181,7 +197,7 @@ function Billing() {
         </SuiBox>
 			  <Snackbar open={successed} autoHideDuration={2000}>
         <Alert severity="success" sx={{ width: '100%' }}>
-          This is a success message!
+          با موفقیت ثبت شد 
         </Alert>
       </Snackbar>
       </Card>

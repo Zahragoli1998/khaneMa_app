@@ -56,13 +56,12 @@ function Dashboard() {
   const onSubmitToMyExpense = () => {
 		if (data) {
 			setChartData({...data})
-			console.log("data",data);
 			const newArray = [
 				...data.getMyExpenses.map((item) => {
-					const newDate = [...item.date.split("-").join("/").split("T")];
+					const newDate = new Date(item.date)
 					return {
 						...item,
-						newDate: moment(newDate[0], "YYYY/MM/DD").locale("fa").format("YYYY/MM/DD"),
+						newDate: newDate.toLocaleDateString('fa-IR',{year:'numeric',month:'numeric',day:'numeric'}),
 					};
 				}),
 			];

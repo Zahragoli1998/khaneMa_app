@@ -5,8 +5,8 @@ import { Doughnut } from "react-chartjs-2";
 import Card from "@mui/material/Card";
 import SuiBox from "components/SuiBox";
 import SuiTypography from "components/SuiTypography";
-import configs from "examples/Charts/DoughnutCharts/DefaultDoughnutChart/configs";
-import {gql,useQuery} from "@apollo/client"
+
+
 
 function DefaultDoughnutChart({ title, description, height,chartData }) {
 	const labels= []
@@ -18,10 +18,10 @@ function DefaultDoughnutChart({ title, description, height,chartData }) {
 			return expense.tags.map((tag)=>{
 				let listItem = list.find((item) => item.name === tag.name);
 				if (!listItem) {
-							list.push({ "name": tag.name, "color": tag.color ,"amount":1 })
+							list.push({ "name": tag.name, "color": `#${tag.color}` ,"amount":expense.amount })
 						}
 						else {
-							listItem.amount++
+							listItem.amount += expense.amount
 						}
 			})
 		})

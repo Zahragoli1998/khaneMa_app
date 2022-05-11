@@ -10,6 +10,7 @@ import { ToggleButton } from "@mui/material";
 import { useMutation, useQuery, gql } from "@apollo/client";
 import { useSoftUIController } from "../../context/index";
 import { MY_TAGS } from "layouts/authentication/sign-in";
+import { HuePicker } from "react-color";
 
 const EDIT_TAG = gql`
   mutation Mutation($id: ID!, $data: tagInfo!) {
@@ -69,24 +70,18 @@ const EditTag = ({
         justifyContent: "space-between",
       }}
     >
+      <HuePicker width="15vw" color={tagColor} onChangeComplete={(e) => setTagColor(e.hex.split('#')[1])}/>
+
       <Box sx={{ display: "flex", justifyContent: "space-between", width: "15vw" }}>
         {colors.map((color) => {
           return (
             <RadioButtonCheckedIcon
               onClick={() => setTagColor(color)}
               fontSize="medium"
-              sx={{ color: color, cursor: "pointer" }}
+              sx={{ color: `#${color}`, cursor: "pointer" }}
             />
           );
         })}
-      </Box>
-      <Box sx={{ width: "22vw" }}>
-        <SuiInput
-          onChange={(e) => setTagColor(e.target.value)}
-          value={tagColor}
-          placeholder="رنگ دلخواه"
-          label="nnnnnnn"
-        />
       </Box>
       <Box sx={{ width: "22vw" }}>
         <SuiInput
